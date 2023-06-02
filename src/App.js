@@ -1,26 +1,31 @@
-import logo from './logo.svg';
 import './App.css';
-import Layout from './components/layout';
-import Footer from './components/footer';
-import { useEffect, useState } from 'react';
+import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import Users from './components/users';
+import NewUser from './components/users/new';
+import { useState } from 'react';
+import ShowUser from './components/users/show';
 
 function App() {
-  const [test, setTest] = useState(true)
-
-  const incrementCounter = () => {
-    setTimeout(() => {
-      setTest(false)
-    }, 10000);
-  }
-
-  useEffect(() => {
-    incrementCounter()
-  }, [test])
+  const [users, setUsers] = useState([])
 
   return (
     <div className="App">
-      <Layout mmyAttribute="test" />
-      {test && <Footer />}
+      <BrowserRouter>
+        <Routes>
+          <Route
+            path="/"
+            element={<Users users={users} />}
+          />
+          <Route
+            path="/new"
+            element={<NewUser setUsers={setUsers} length={users.length} />}
+          />
+          <Route
+            path="/:id"
+            element={<ShowUser users={users} />}
+          />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
