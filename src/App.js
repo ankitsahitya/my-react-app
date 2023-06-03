@@ -1,31 +1,33 @@
 import './App.css';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Users from './components/users';
 import NewUser from './components/users/new';
-import { useState } from 'react';
 import ShowUser from './components/users/show';
+import LoginUser from './components/users/login';
 
 function App() {
-  const [users, setUsers] = useState([])
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Users />,
+    },
+    {
+      path: "/new",
+      element: <NewUser />,
+    },
+    {
+      path: "/:id",
+      element: <ShowUser />,
+    },
+    {
+      path: "/login",
+      element: <LoginUser />,
+    }
+  ]);
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route
-            path="/"
-            element={<Users users={users} />}
-          />
-          <Route
-            path="/new"
-            element={<NewUser setUsers={setUsers} length={users.length} />}
-          />
-          <Route
-            path="/:id"
-            element={<ShowUser users={users} />}
-          />
-        </Routes>
-      </BrowserRouter>
+      <RouterProvider router={router} />
     </div>
   );
 }

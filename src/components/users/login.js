@@ -3,13 +3,14 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom"
 
-const NewUser = () => {
+const LoginUser = () => {
   const [error, setError] = useState(null)
 
   const navigate = useNavigate()
 
   const onFinish = (values) => {
-    axios.post('http://localhost:3000/users', values).then((res) => {
+    axios.post('http://localhost:3000/users/login', values).then((res) => {
+      localStorage.setItem('auth-token', res.data.token)
       navigate('/')
     }).catch((err) => {
       setError(err.response.data)
@@ -40,38 +41,12 @@ const NewUser = () => {
       autoComplete="off"
     >
       <Form.Item
-        label="Name"
-        name="name"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
         label="Email"
         name="email"
         rules={[
           {
             required: true,
             message: 'Please input your email!',
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Phone No."
-        name="phone"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your Phone Number!',
           },
         ]}
       >
@@ -92,4 +67,4 @@ const NewUser = () => {
   </>)
 }
 
-export default NewUser
+export default LoginUser
