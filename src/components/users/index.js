@@ -1,5 +1,6 @@
 import { Button, Col, Row, Table } from "antd"
 import axios from "axios"
+import io from "socket.io-client"
 import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 
@@ -7,6 +8,16 @@ const Users = () => {
   const [users, setUsers] = useState([])
   const [error, setError] = useState(null)
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const socket = io(`http://localhost:3000`);
+    socket.on('NewUser', (user) => {
+      setUsers((prev) => [
+        ...prev,
+        user
+      ])
+    });
+  }, []);
 
   useEffect(() => {
     axios.get('http://localhost:3000/users', {
